@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exit Ticket & Refleksi</title>
+    
+    <!-- Script Perender Rumus Matematika -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+    </script>
+
+    <style>
+        :root { --primary: #e63946; --bg: #f8f9fa; --text: #2b2d42; }
+        body { margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px 0; }
+        #form-container { width: 90%; max-width: 650px; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); position: relative; overflow: hidden; }
+        #progress-bar { position: absolute; top: 0; left: 0; height: 6px; background: var(--primary); width: 0%; transition: 0.5s ease; }
+        
+        .step { display: none; animation: fadeIn 0.4s ease; }
+        .step.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .label-number { font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
+        h1 { font-size: 1.5rem; margin: 0 0 10px 0; color: var(--text); }
+        h2 { font-size: 1.05rem; line-height: 1.6; color: #4a4e69; margin-bottom: 15px; }
+        p { color: #6c757d; font-size: 0.95rem; line-height: 1.5; }
+        
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 12px 0; border: none; border-bottom: 2px solid #dee2e6; font-size: 1.1rem; outline: none; transition: 0.3s; margin-bottom: 25px; background: transparent; color: var(--text); font-family: inherit; }
+        textarea { font-size: 1rem; border: 2px solid #dee2e6; border-radius: 12px; padding: 15px; box-sizing: border-box; resize: none; margin-top: 5px; }
+        input:focus, textarea:focus { border-color: var(--primary); }
+        
+        .math-box { background: #fff3f3; padding: 15px; border-radius: 12px; text-align: center; font-size: 1.4rem; font-weight: 700; margin: 20px 0; border: 1px solid #ffccd5; color: var(--primary); }
+        
+        /* Desain Timer */
+        #timer-box { background: #2b2d42; color: white; padding: 15px; border-radius: 12px; text-align: center; font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .warning { background: #e63946 !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        button { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-next { background: var(--text); color: white; }
+        .btn-next:hover { background: #1d1e2c; }
+        .btn-submit { background: var(--primary); color: white; }
+        .btn-submit:hover { background: #c1121f; }
+        
+        #success-msg { text-align: center; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="form-container">
+    <div id="progress-bar"></div>
+    <form id="student-form">
+        
+        <!-- STEP 1: IDENTITAS -->
+        <div class="step active" id="step-1">
+            <span class="label-number">Identitas</span>
+            <h1>Data Siswa</h1>
+            <p>Jawablah pertanyaan refleksi dengan tenang. Namun, bersiaplah untuk <b>Exit Ticket yang memiliki batas waktu!</b></p>
+            <input type="text" name="nama" placeholder="Nama Lengkap" required>
+            <input type="number" name="absen" placeholder="Nomor Absen" required>
+            <button type="button" class="btn-next" onclick="nextStep(1)">Mulai Refleksi</button>
+        </div>
+
+        <!-- STEP 2: REFLEKSI -->
+        <div class="step" id="step-2">
+            <span class="label-number">Refleksi Pembelajaran</span>
+            
+            <h2>1. Menurutmu, apakah kamu bisa mencari koefisien korelasi ($r$) jika hanya menggunakan kertas dan alat tulis, tanpa bantuan teknologi (kalkulator/spreadsheet)? Mengapa?</h2>
+            <textarea name="ref_1" rows="3" placeholder="Jawabanmu..." required></textarea>
+            
+            <h2>2. Bagaimana cara kamu mengintepretasikan suatu koefisien korelasi jika sudah diketahui nilai $r$-nya?</h2>
+            <textarea name="ref_2" rows="3" placeholder="Jawabanmu..." required></textarea>
+
+            <h2>3. Selama 1 bulan belajar materi ini, apa yang membuatmu merasa pembelajaran kurang berkesan sehingga kesulitan memahami materi? (Jawab jujur untuk perbaikan ke depannya)</h2>
+            <textarea name="ref_3" rows="4" placeholder="Pendapat jujurmu sangat berharga..." required></textarea>
+            
+            <!-- Peringatan sebelum masuk timer -->
+            <p style="color: #e63946; font-weight: bold; font-size: 0.9rem; text-align: center; margin-top: 20px;">
+                ⚠️ PERHATIAN: Halaman berikutnya adalah Exit Ticket dengan batas waktu 90 DETIK. Jawaban akan terkirim otomatis saat waktu habis!
+            </p>
+            <button type="button" class="btn-next" onclick="nextStep(2)">Mulai Exit Ticket (90 Detik)</button>
+        </div>
+
+        <!-- STEP 3: EXIT TICKET (TIMER) -->
+        <div class="step" id="step-3">
+            <div id="timer-box">⏳ Sisa Waktu: <span id="time-display">01:30</span></div>
+            
+            <span class="label-number">Uji Cepat (Exit Ticket)</span>
+            <p>Diberikan nilai korelasi untuk hubungan biaya iklan dan keuntungan perusahaan:</p>
+            <div class="math-box">$$r = 0,92$$</div>
+            
+            <h2>1. Jelaskan arah dan kekuatan hubungan dari nilai di atas!</h2>
+            <textarea name="exit_1" rows="2" placeholder="Ketik cepat di sini..."></textarea>
+            
+            <h2>2. Apakah model regresinya layak dipercaya? Jelaskan alasannya!</h2>
+            <textarea name="exit_2" rows="2" placeholder="Ketik alasanmu di sini..."></textarea>
+            
+            <button type="button" id="submit-btn" class="btn-submit" onclick="manualSubmit()">Kirim Sekarang</button>
+        </div>
+    </form>
+
+    <div id="success-msg">
+        <h1 style="font-size: 3.5rem;">🏁</h1>
+        <h1 id="sukses-title">Terkirim!</h1>
+        <p>Terima kasih atas kerja kerasmu dan masukan jujurnya hari ini. Sampai jumpa di materi selanjutnya!</p>
+    </div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxjd7y68K1vtcQ7N4QCDRb9c6OrdWmPuSBG9u_ZdiyglbPE7SPMkjhGne0Fppx21jLCGQ/exec'; // GANTI DENGAN URL APPS SCRIPT BARU
+    const form = document.getElementById('student-form');
+    
+    // Konfigurasi Timer
+    let timeLimit = 90; // 90 detik
+    let timerInterval;
+
+    function nextStep(step) {
+        const current = document.getElementById(`step-${step}`);
+        const inputs = current.querySelectorAll('input[required], textarea[required]');
+        let valid = true;
+        
+        inputs.forEach(input => { if (!input.value.trim()) valid = false; });
+
+        if (valid) {
+            current.classList.remove('active');
+            document.getElementById(`step-${step + 1}`).classList.add('active');
+            document.getElementById('progress-bar').style.width = (step / 2 * 100) + '%';
+            window.scrollTo(0, 0);
+
+            // Jika masuk ke step 3 (Exit Ticket), nyalakan timer
+            if (step === 2) {
+                startTimer();
+            }
+        } else {
+            alert("Harap lengkapi semua jawaban di halaman ini terlebih dahulu.");
+        }
+    }
+
+    function startTimer() {
+        const timerBox = document.getElementById('timer-box');
+        const timeDisplay = document.getElementById('time-display');
+        timerBox.style.display = 'block';
+
+        timerInterval = setInterval(() => {
+            timeLimit--;
+            let minutes = Math.floor(timeLimit / 60);
+            let seconds = timeLimit % 60;
+            
+            timeDisplay.innerText = 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+
+            // Beri efek merah berkedip jika sisa <= 15 detik
+            if (timeLimit <= 15) {
+                timerBox.classList.add('warning');
+                timerBox.innerText = "⚠️ CEPAT! SISA: " + timeDisplay.innerText;
+            }
+
+            // WAKTU HABIS
+            if (timeLimit <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('sukses-title').innerText = "Waktu Habis!";
+                processSubmit("Waktu Habis! Mengirim data otomatis...");
+            }
+        }, 1000);
+    }
+
+    // Tombol Kirim Manual (Jika selesai sebelum 90 detik)
+    function manualSubmit() {
+        clearInterval(timerInterval);
+        processSubmit("Mengirim Jawaban...");
+    }
+
+    // Proses kirim data (Bypass pengecekan agar tetap terkirim saat waktu habis)
+    function processSubmit(buttonText) {
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true; 
+        btn.innerText = buttonText;
+        
+        // Memaksa kirim meskipun ada isian yang kosong (saat waktu habis)
+        fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: new FormData(form)})
+            .then(response => {
+                form.style.display = 'none';
+                document.getElementById('success-msg').style.display = 'block';
+                document.getElementById('progress-bar').style.width = '100%';
+            })
+            .catch(error => {
+                alert('Gagal mengirim data. Pastikan koneksi internet aktif.');
+                btn.disabled = false; 
+                btn.innerText = "Coba Kirim Lagi";
+            });
+    }
+    // MENCEGAH COPY SOAL
+document.addEventListener('contextmenu', event => event.preventDefault()); // Mematikan klik kanan
+document.addEventListener('selectstart', event => event.preventDefault()); // Mematikan blok teks (highlight)
+
+// MENCEGAH PASTE JAWABAN DARI AI
+const exitInputs = document.querySelectorAll('textarea[name="exit_1"], textarea[name="exit_2"]');
+exitInputs.forEach(input => {
+    // Izinkan siswa mengetik teks (menghapus efek selectstart khusus di dalam kotak jawaban)
+    input.addEventListener('selectstart', event => event.stopPropagation()); 
+    
+    // Matikan fungsi Paste
+    input.addEventListener('paste', e => {
+        e.preventDefault();
+        alert('Hayoo, ketik manual ya! Tidak boleh Paste jawaban dari luar 😉');
+    });
+});
+</script>
+
+</body>
+</html>
